@@ -21,12 +21,13 @@ import edu.info.aen.tprecyclerviewfragment.MainActivity;
 import edu.info.aen.tprecyclerviewfragment.R;
 import edu.info.aen.tprecyclerviewfragment.RvDetailActivity;
 import edu.info.aen.tprecyclerviewfragment.adapters.CouleursAdapter;
+import edu.info.aen.tprecyclerviewfragment.databinding.FragmentRvBinding;
 import edu.info.aen.tprecyclerviewfragment.viewmodels.ColorViewModel;
 
 public class RvFragment extends Fragment {
 
     ColorViewModel mViewModel;
-
+    FragmentRvBinding binding;
     public RvFragment() {
         // Required empty public constructor
     }
@@ -40,7 +41,8 @@ public class RvFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rv, container, false);
+        this.binding = FragmentRvBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -52,7 +54,6 @@ public class RvFragment extends Fragment {
         int[] images = {R.drawable.rouge, R.drawable.vert, R.drawable.bleu, R.drawable.jaune, R.drawable.orange, R.drawable.violet, R.drawable.rose, R.drawable.marron, R.drawable.gris, R.drawable.cyan};
         String[] titles = getResources().getStringArray(R.array.couleur);
         String[] descriptions = getResources().getStringArray(R.array.description);
-        RecyclerView recyclerView = requireView().findViewById(R.id.rv_couleurs);
         CouleursAdapter adapter = new CouleursAdapter(getContext(), titles, descriptions, images);
         adapter.setListener(position -> {
             mViewModel.setSelectedColorTitle(titles[position]);
@@ -60,8 +61,8 @@ public class RvFragment extends Fragment {
             mViewModel.setSelectedColorDescription(descriptions[position]);
             Navigation.findNavController(view).navigate(R.id.action_rvFragment_to_detailFragment);
         });
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.binding.rvCouleurs.setAdapter(adapter);
+        this.binding.rvCouleurs.setHasFixedSize(true);
+        this.binding.rvCouleurs.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }

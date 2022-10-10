@@ -14,10 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import edu.info.aen.tprecyclerviewfragment.R;
+import edu.info.aen.tprecyclerviewfragment.databinding.FragmentDetailBinding;
 import edu.info.aen.tprecyclerviewfragment.viewmodels.ColorViewModel;
 
 public class DetailFragment extends Fragment {
     ColorViewModel mViewModel;
+    FragmentDetailBinding binding;
+
     public DetailFragment() {
         // Required empty public constructor
     }
@@ -31,19 +34,16 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        this.binding = FragmentDetailBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.mViewModel = new ViewModelProvider(requireActivity()).get(ColorViewModel.class);
-        TextView titleTv = requireView().findViewById(R.id.rv_detail_rv_title);
-        TextView descriptionTv = requireView().findViewById(R.id.rv_detail_tv_subtitle);
-        ImageView image = requireView().findViewById(R.id.rv_detail_image);
-
-        titleTv.setText(mViewModel.getSelectedColorTitle());
-        descriptionTv.setText(mViewModel.getSelectedColorDescription());
-        image.setImageResource(mViewModel.getSelectedColorImage());
+        this.binding.rvDetailRvTitle.setText(mViewModel.getSelectedColorTitle());
+        this.binding.rvDetailTvSubtitle.setText(mViewModel.getSelectedColorDescription());
+        this.binding.rvDetailImage.setImageResource(mViewModel.getSelectedColorImage());
     }
 }
